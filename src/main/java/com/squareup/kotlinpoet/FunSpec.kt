@@ -322,20 +322,6 @@ class FunSpec private constructor(builder: Builder) {
       return this
     }
 
-    fun addExceptions(exceptions: Iterable<TypeName>): Builder {
-      this.exceptions += exceptions
-      return this
-    }
-
-    fun addException(exception: TypeName): Builder {
-      exceptions += exception
-      return this
-    }
-
-    fun addException(exception: Type) = addException(TypeName.get(exception))
-
-    fun addException(exception: KClass<*>) = addException(TypeName.get(exception))
-
     fun addCode(format: String, vararg args: Any): Builder {
       code.add(format, *args)
       return this
@@ -451,10 +437,6 @@ class FunSpec private constructor(builder: Builder) {
       funBuilder.returns(TypeName.get(method.returnType))
       funBuilder.addParameters(ParameterSpec.parametersOf(method))
       funBuilder.varargs(method.isVarArgs)
-
-      for (thrownType in method.thrownTypes) {
-        funBuilder.addException(TypeName.get(thrownType))
-      }
 
       return funBuilder
     }
